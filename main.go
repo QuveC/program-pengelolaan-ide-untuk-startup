@@ -9,11 +9,11 @@ type Idea struct {
 	Upvote int
 }
 
-var ideas [maxIdea]Idea
+type ideas [maxIdea]Idea
 
 func createIdea(){
-  
-   
+
+
 }
 
 func updateIdea(){
@@ -47,14 +47,14 @@ func main() {
 		if pilihan == 1 {
 			createIdea()
 		} else if pilihan == 2 {
-      popularIdea()
+			popularIdea()
 		} else if pilihan == 3 {
 			popularIdea()
 		}else if pilihan == 4{
-      		fmt.Println("Terima kasih.")
+			fmt.Println("Terima kasih.")
 			break
-    }else {
-      fmt.Println("Pilihan tidak ada")
-    }
-  }
+		}else {
+			fmt.Println("Pilihan tidak ada")
+		}
+	}
 }
