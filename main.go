@@ -126,8 +126,7 @@ func selectionSortByTgl() {
 
 func showIdea() {
 	clear()
-	selectionSortByTgl()
-	fmt.Println("\nDaftar Ide (berdasarkan tanggal):")
+	fmt.Println("\nDaftar Ide :")
 	for i := 0; i < totalAmount; i++ {
     fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d | Tanggal: %d\n",			
 	        ideaList[i].IdIdea,
@@ -196,15 +195,8 @@ func addRating() {
 
 }
 
-func insertionShortByPopularIdea() {
-      clear()
-
-	  if totalAmount == 0 {
-		fmt.Println("Belum ada ide yang bisa ditampilkan.")
-		return
-	}
-
-		for i := 1; i < totalAmount; i++ {
+func insertionShort(){
+	for i := 1; i < totalAmount; i++ {
 		temp := ideaList[i]
 		j := i - 1
 		for j >= 0 && ideaList[j].totalVote < temp.totalVote {
@@ -213,16 +205,63 @@ func insertionShortByPopularIdea() {
 		}
 		ideaList[j+1] = temp
 	}
-	
-	fmt.Println("=== Ide Terpopuler ===")
-	for i := 0; i < totalAmount; i++ {
-		fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d\n",
-			ideaList[i].IdIdea,
-			ideaList[i].ideaProject,
-			ideaList[i].Kategori,
-			ideaList[i].totalVote)
+}
+
+func PopularIdea() {
+	clear()
+
+	if totalAmount == 0 {
+		fmt.Println("Belum ada ide yang bisa ditampilkan.")
+		fmt.Println("Tekan Enter untuk kembali ke menu...")
+		fmt.Scanln()
+		return
+	}
+
+	var pilih int
+	for {
+		fmt.Println("\n=== Pilih Urutan Ide ===")
+		fmt.Println("1. Berdasarkan tanggal")
+		fmt.Println("2. Berdasarkan voting")
+		fmt.Println("3. Kembali ke menu")
+		fmt.Print("Pilih: ")
+		fmt.Scanln(&pilih)
+
+		if pilih == 3 {
+			return
+		}
+
+		if pilih == 1 {
+			selectionSortByTgl()
+			fmt.Println("\n=== Ide berdasarkan Tanggal ===")
+		} else if pilih == 2 {
+			insertionShort()
+			fmt.Println("\n=== Ide berdasarkan Voting ===")
+		} else if pilih == 3{
+			fmt.Println("Pilihan tidak valid.")
+			fmt.Println("Tekan Enter untuk lanjut...")
+			fmt.Scanln()
+		}else {
+			fmt.Println("Pilihan Tidak Ada")
+		}
+
+		if pilih == 1 || pilih == 2 {
+			fmt.Println("=== Daftar Ide ===")
+			for i := 0; i < totalAmount; i++ {
+				fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d | Tanggal: %d\n",
+					ideaList[i].IdIdea,
+					ideaList[i].ideaProject,
+					ideaList[i].Kategori,
+					ideaList[i].totalVote,
+					ideaList[i].tgl)
+			}
+
+			fmt.Println("\nTekan Enter untuk kembali ke pilihan...")
+			fmt.Scanln()
+		}
 	}
 }
+
+
 
 func menu(){
 	clear()
@@ -243,7 +282,7 @@ func menu(){
 		case 2:
 			addRating()
 		case 3:
-			insertionShortByPopularIdea()
+			PopularIdea()
 		case 4:
 			showIdea()
 		case 5:
