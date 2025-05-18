@@ -2,9 +2,13 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 )
 
 const maxIdea = 20
+const maxRating int = 100
+
 
 type Idea struct {
 	IdIdea      int
@@ -20,13 +24,25 @@ type rating struct {
 }
 
 type ideas [maxIdea]Idea
+type ratingList [maxRating]rating
+var totalRating int 
+var currentRatingId int
+var ratingMenu ratingList
 
 var ideaList ideas
 var totalAmount int
 var currentId int = 1
 
+func clear() {
+	cmd := exec.Command("cmd", "/c", "cls")
+	cmd.Stdout = os.Stdout
+	cmd.Run()
+}
+
+
 //================================ CREATE =============================
 func createIdea() {
+	clear()
 	if totalAmount >= maxIdea {
 		fmt.Println("Kapasitas Ide Penuh")
 		return
@@ -46,11 +62,12 @@ func createIdea() {
 	totalAmount++
 
 	fmt.Println("Ide berhasil ditambahkan.")
+	
 }
 
 //================================ UPDATE =============================
 func updateIdea() {
-
+    clear()
 	var id int
 	fmt.Print("Masukkan ID ide yang ingin diupdate: ")
 	fmt.Scanln(&id)
@@ -70,12 +87,27 @@ func updateIdea() {
 
 //================================ DELETE =============================
 func deleteIdea() {
-   
+    clear()
+	var id int 
+	fmt.Print("Masukan ID ide yang ingin dihapus: ")
+	fmt.Scan(&id)
 
+	for i:= 0 ;i<= totalAmount ; i++{
+		if ideaList[i].IdIdea == id {
+			for j := i; j < totalAmount - 1;i++{
+				ideaList[j]= ideaList[j+1]
+			}
+			totalAmount--
+			fmt.Println("Ide berhasil dihapus.")
+		}
+
+	}
+   	fmt.Println("ID tidak ditemukan.")
 }
 
 //=============================== SHOW ===============================
 func showIdea() {
+	clear()
 	fmt.Println("\nDaftar Ide:")
 	for i := 0; i < totalAmount; i++ {
 		fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d\n",
@@ -90,6 +122,7 @@ func showIdea() {
 	fmt.Println("1. Create")
 	fmt.Println("2. Update")
 	fmt.Println("3. Delete")
+	fmt.Println("4. back")
 	fmt.Print("Pilih: ")
 	fmt.Scanln(&pilih)
 
@@ -100,6 +133,8 @@ func showIdea() {
 		updateIdea()
 	case 3:
 		deleteIdea()
+	case 4:
+		menu()	
 	default:
 		fmt.Println("Pilihan tidak valid.")
 	}
@@ -107,18 +142,71 @@ func showIdea() {
 
 //============================= DUMMY VOTE =============================
 func addRating() {
-	// fmt.Println("Fitur voting belum diimplementasi.")
+	clear()
+	if totalAmount == 0 {
+		fmt.Println("Belum ada ide yang bisa divote.")
+		return
+	}
+
+	var r rating 
+	fmt.Print("Masukkan nama Anda: ")
+	fmt.Scanln(&r.author)
+	fmt.Print("Masukkan ID ide yang ingin divote: ")
+	fmt.Scanln(&r.IdIdea)
+
+	for i := 0; i < totalAmount; i++ {
+		if ideaList[i].IdIdea == r.IdIdea {
+			ideaList[i].totalVote++
+		}
+	}
+
+	if totalRating >= maxRating {
+		fmt.Println("Kapasitas rating penuh.")
+		return
+	}
+
+	r.idRating = currentRatingId
+	currentRatingId++
+	ratingMenu[totalRating] = r
+	totalRating++
+
+	fmt.Println("Vote berhasil ditambahkan.")
+
+
 }
 
 func popularIdea() {
-	// fmt.Println("Fitur popular idea belum diimplementasi.")
+      clear()
+
+	  if totalAmount == 0 {
+		fmt.Println("Belum ada ide yang bisa ditampilkan.")
+		return
+	}
+
+		for i := 1; i < totalAmount; i++ {
+		temp := ideaList[i]
+		j := i - 1
+		for j >= 0 && ideaList[j].totalVote < temp.totalVote {
+			ideaList[j+1] = ideaList[j]
+			j--
+		}
+		ideaList[j+1] = temp
+	}
+	
+	fmt.Println("=== Ide Terpopuler ===")
+	for i := 0; i < totalAmount; i++ {
+		fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d\n",
+			ideaList[i].IdIdea,
+			ideaList[i].ideaProject,
+			ideaList[i].Kategori,
+			ideaList[i].totalVote)
+	}
 }
 
-//============================= MAIN =============================
-func main() {
-	var pilihan int
-
-	for {
+func menu(){
+	clear()
+		var pilihan int 
+     for {
 		fmt.Println("\n=== MENU UTAMA ===")
 		fmt.Println("1. Tambah Ide")
 		fmt.Println("2. Voting")
@@ -144,4 +232,10 @@ func main() {
 			fmt.Println("Pilihan tidak valid.")
 		}
 	}
+}
+
+//============================= MAIN =============================
+func main() {
+menu()
+	
 }
