@@ -54,6 +54,8 @@ func createIdea() {
 	fmt.Scanln(&newIdea.ideaProject)
 	fmt.Print("Masukkan kategori: ")
 	fmt.Scanln(&newIdea.Kategori)
+	fmt.Print("Masukan Tanggal: ")
+	fmt.Scanln(&newIdea.tgl)
 
 	newIdea.totalVote = 0
 	newIdea.IdIdea = currentId
@@ -127,11 +129,13 @@ func showIdea() {
 	selectionSortByTgl()
 	fmt.Println("\nDaftar Ide (berdasarkan tanggal):")
 	for i := 0; i < totalAmount; i++ {
-		fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d\n",
-			ideaList[i].IdIdea,
+    fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d | Tanggal: %d\n",			
+	        ideaList[i].IdIdea,
 			ideaList[i].ideaProject,
 			ideaList[i].Kategori,
-			ideaList[i].totalVote)
+			ideaList[i].totalVote,
+			ideaList[i].tgl,
+		)
 	}
 
 	var pilih int
@@ -253,6 +257,6 @@ func menu(){
 
 //============================= MAIN =============================
 func main() {
-menu()
+     menu()
 	
 }
