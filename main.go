@@ -15,6 +15,7 @@ type Idea struct {
 	ideaProject string
 	Kategori    string
 	totalVote   int
+	tgl         int
 }
 
 type rating struct {
@@ -106,9 +107,25 @@ func deleteIdea() {
 }
 
 //=============================== SHOW ===============================
+func selectionSortByTgl() {
+
+	for i := 0; i < totalAmount-1; i++ {
+		minIdx := i
+		for j := i + 1; j < totalAmount; j++ {
+			if ideaList[j].tgl < ideaList[minIdx].tgl {
+				minIdx = j
+			}
+		}
+		if minIdx != i {
+			ideaList[i], ideaList[minIdx] = ideaList[minIdx], ideaList[i]
+		}
+	}
+}
+
 func showIdea() {
 	clear()
-	fmt.Println("\nDaftar Ide:")
+	selectionSortByTgl()
+	fmt.Println("\nDaftar Ide (berdasarkan tanggal):")
 	for i := 0; i < totalAmount; i++ {
 		fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d\n",
 			ideaList[i].IdIdea,
@@ -175,7 +192,7 @@ func addRating() {
 
 }
 
-func popularIdea() {
+func insertionShortByPopularIdea() {
       clear()
 
 	  if totalAmount == 0 {
@@ -222,7 +239,7 @@ func menu(){
 		case 2:
 			addRating()
 		case 3:
-			popularIdea()
+			insertionShortByPopularIdea()
 		case 4:
 			showIdea()
 		case 5:
