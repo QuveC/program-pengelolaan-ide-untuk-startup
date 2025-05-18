@@ -97,7 +97,7 @@ func deleteIdea() {
 
 	for i:= 0 ;i<= totalAmount ; i++{
 		if ideaList[i].IdIdea == id {
-			for j := i; j < totalAmount - 1;i++{
+			for j := i; j < totalAmount - 1;j++{
 				ideaList[j]= ideaList[j+1]
 			}
 			totalAmount--
