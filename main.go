@@ -358,12 +358,15 @@ func menu(){
 	clear()
 	var pilihan int 
     for {
-		fmt.Println("\n=== MENU UTAMA ===")
-		fmt.Println("1. Tambah Ide")
-		fmt.Println("2. Voting")
-		fmt.Println("3. Lihat Ide Terpopuler")
-		fmt.Println("4. Lihat Semua Ide")
-		fmt.Println("5. Keluar")
+		fmt.Println("╔══════════════════════════════════════════════════╗")
+		fmt.Println("║                    MENU UTAMA                    ║")
+		fmt.Println("╠══════════════════════════════════════════════════╣")
+		fmt.Println("║ 1. Tambah Ide                                    ║")
+		fmt.Println("║ 2. Voting                                        ║")
+		fmt.Println("║ 3. Lihat Ide Terpopuler                          ║")
+		fmt.Println("║ 4. Lihat Semua Ide                               ║")
+		fmt.Println("║ 5. Keluar                                        ║")
+		fmt.Println("╚══════════════════════════════════════════════════╝")
 		fmt.Print("Pilih menu: ")
 		fmt.Scanln(&pilihan)
 
