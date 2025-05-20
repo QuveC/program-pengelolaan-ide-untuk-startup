@@ -195,8 +195,13 @@ func showIdea() {
 	if totalAmount == 0 {
 		fmt.Println("Belum ada data yang di tambahkan")
 	}
+		fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
+		fmt.Println("║                              List Ide                               ║")
+		fmt.Println("╠════╦════════════════════════╦══════════════╦═══════╦════════════════╣")
+		fmt.Println("║ No ║        Ide             ║   Kategori   ║ Vote  ║    Tanggal     ║")
+		fmt.Println("╠════╬════════════════════════╬══════════════╬═══════╬════════════════╣")
 	for i := 0; i < totalAmount; i++ {
-    fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d | Tanggal: %s\n",			
+			fmt.Printf("║ %-2d ║ %-22s ║ %-12s ║ %-5d ║ %-14s ║\n",
 			ideaList[i].IdIdea,
 			ideaList[i].ideaProject,
 			ideaList[i].Kategori,
@@ -204,6 +209,7 @@ func showIdea() {
 			ideaList[i].tgl.Format("2006-01-02"),
 		)
 	}
+        fmt.Println("╚════╩════════════════════════╩══════════════╩═══════╩════════════════╝")
 
 	var pilih int
 	fmt.Println("\n=== Pilihan ===")
@@ -324,17 +330,22 @@ func PopularIdea() {
 			fmt.Println("Pilihan Tidak Ada")
 		}
 
+		fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
+		fmt.Println("║                      IDE BERDASARKAN URUTAN                         ║")
+		fmt.Println("╠════╦════════════════════════╦══════════════╦═══════╦════════════════╣")
+		fmt.Println("║ No ║        Ide             ║   Kategori   ║ Vote  ║    Tanggal     ║")
+		fmt.Println("╠════╬════════════════════════╬══════════════╬═══════╬════════════════╣")
+
 		if pilih == 1 || pilih == 2 {
-			fmt.Println("=== Daftar Ide ===")
 			for i := 0; i < totalAmount; i++ {
-				fmt.Printf("No %d | Ide: %s | Kategori: %s | Vote: %d | Tanggal: %d\n",
+			fmt.Printf("║ %-2d ║ %-22s ║ %-12s ║ %-5d ║ %-14s ║\n",
 					i+1,
 					ideaList[i].ideaProject,
 					ideaList[i].Kategori,
 					ideaList[i].totalVote,
 					ideaList[i].tgl.Format("2006-01-02"))
 			}
-
+		fmt.Println("╚════╩════════════════════════╩══════════════╩═══════╩════════════════╝")
 			fmt.Println("\nTekan Enter untuk kembali ke pilihan...")
 			fmt.Scanln()
 		}
