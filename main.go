@@ -305,12 +305,17 @@ func PopularIdea() {
 
 	var pilih int
 	for {
-		fmt.Println("\n=== Pilih Urutan Ide ===")
-		fmt.Println("1. Berdasarkan tanggal")
-		fmt.Println("2. Berdasarkan voting")
-		fmt.Println("3. Kembali ke menu")
-		fmt.Print("Pilih: ")
+	
+		fmt.Println("╔══════════════════════════════════════════════════╗")
+		fmt.Println("║                 Pilih UrutaN Ide                 ║")
+		fmt.Println("╠══════════════════════════════════════════════════╣")
+		fmt.Println("║ 1. Berdasarkan tanggal                           ║")
+		fmt.Println("║ 2. Berdasarkan voting                            ║")
+		fmt.Println("║ 3. Kembali ke menu                               ║")
+		fmt.Println("╚══════════════════════════════════════════════════╝")
+		fmt.Print("Pilih : ")
 		fmt.Scanln(&pilih)
+
 
 		if pilih == 3 {
 			return
