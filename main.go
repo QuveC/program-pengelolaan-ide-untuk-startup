@@ -48,42 +48,63 @@ func createIdea() {
 	clear()
 	if totalAmount >= maxIdea {
 		fmt.Println("Kapasitas Ide Penuh")
+		bufio.NewReader(os.Stdin).ReadBytes('\n')
+		clear()
 		return
 	}
 
 	reader := bufio.NewReader(os.Stdin)
 
 	var newIdea Idea
+
+	newIdea.IdIdea = currentId
+	currentId++
+
 	fmt.Print("Masukkan ide: ")
-	// fmt.Scanln(&newIdea.Kategori)
 	ideaInput, _ := reader.ReadString('\n')
 	newIdea.ideaProject = strings.TrimSpace(ideaInput)
 
 	fmt.Print("Masukkan kategori: ")
-	// fmt.Scanln(&newIdea.Kategori)
 	kategoriInput, _ := reader.ReadString('\n')
 	newIdea.Kategori = strings.TrimSpace(kategoriInput)
 
-	// fmt.Print("Masukan Tanggal: ")
-	// fmt.Scanln(&newIdea.tgl)
-	newIdea.tgl = time.Now()
+	fmt.Print("Masukkan Tanggal (YYYY-MM-DD): ")
+	tanggalInput, _ := reader.ReadString('\n')
+	tanggalStr := strings.TrimSpace(tanggalInput)
+
+	tgl, err := time.Parse("2006-01-02", tanggalStr)
+	if err != nil {
+		fmt.Println("Format tanggal tidak valid!")
+		bufio.NewReader(os.Stdin).ReadBytes('\n')
+		clear()
+		return
+	}
+	newIdea.tgl = tgl
 
 	newIdea.totalVote = 0
-	newIdea.IdIdea = currentId
-	currentId++
-
+	
 	ideaList[totalAmount] = newIdea
 	totalAmount++
 
 	fmt.Println("Ide berhasil ditambahkan.")
-	
+	bufio.NewReader(os.Stdin).ReadBytes('\n')
+	clear()
 }
 
 //================================ UPDATE =============================
 func updateIdea() {
 	clear()
-
+	for i := 0; i < totalAmount; i++ {
+		fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d | Tanggal: %s\n",			
+			ideaList[i].IdIdea,
+			ideaList[i].ideaProject,
+			ideaList[i].Kategori,
+			ideaList[i].totalVote,
+			ideaList[i].tgl.Format("2006-01-02"),
+		)
+	}
 	var id int
+	fmt.Println("")
 	fmt.Print("Masukkan ID ide yang ingin diupdate: ")
 	fmt.Scanln(&id)
 
@@ -98,34 +119,57 @@ func updateIdea() {
 			fmt.Print("Masukkan kategori baru: ")
 			kategoriInput, _ := reader.ReadString('\n')
 			ideaList[i].Kategori = strings.TrimSpace(kategoriInput)
+			
+			ideaList[i].tgl = time.Now()	
 
 			fmt.Println("Ide berhasil diupdate.")
+			bufio.NewReader(os.Stdin).ReadBytes('\n')
+			clear()
 			return
 		}
 	}
 	fmt.Println("ID tidak ditemukan.")
+	bufio.NewReader(os.Stdin).ReadBytes('\n')
+	clear()
 }
 
 //================================ DELETE =============================
 func deleteIdea() {
     clear()
-	var id int 
-	fmt.Print("Masukan ID ide yang ingin dihapus: ")
-	fmt.Scan(&id)
-
-	for i:= 0; i<= totalAmount; i++{
-		if ideaList[i].IdIdea == id {
-			for j := i; j < totalAmount - 1;j++{
-				ideaList[j]= ideaList[j+1]
-			}
-			totalAmount--
-			fmt.Println("Ide berhasil dihapus.")
-		}else {
-			fmt.Println("ID tidak di temukan")
-		}
-
+	for i := 0; i < totalAmount; i++ {
+		fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d | Tanggal: %s\n",			
+			ideaList[i].IdIdea,
+			ideaList[i].ideaProject,
+			ideaList[i].Kategori,
+			ideaList[i].totalVote,
+			ideaList[i].tgl.Format("2006-01-02"),
+		)
 	}
-	fmt.Println("ID tidak ditemukan.")
+	var id int
+    fmt.Println("")
+    fmt.Print("Masukan ID ide yang ingin dihapus: ")
+    fmt.Scan(&id)
+
+    found := false
+    for i := 0; i < totalAmount; i++ {
+        if ideaList[i].IdIdea == id {
+            for j := i; j < totalAmount-1; j++ {
+                ideaList[j] = ideaList[j+1]
+            }
+            totalAmount--
+            found = true
+            fmt.Println("Ide berhasil dihapus.")
+            break
+        }
+    }
+
+    if found {
+        for i := 0; i < totalAmount; i++ {
+            ideaList[i].IdIdea = i + 1
+        }
+    } else {
+		fmt.Println("ID tidak ditemukan.")
+    }
 }
 
 //=============================== SHOW ===============================
@@ -191,6 +235,16 @@ func addRating() {
 		fmt.Println("Belum ada ide yang bisa divote.")
 		return
 	}
+		
+	for i := 0; i < totalAmount; i++ {
+    fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d | Tanggal: %s\n",			
+			ideaList[i].IdIdea,
+			ideaList[i].ideaProject,
+			ideaList[i].Kategori,
+			ideaList[i].totalVote,
+			ideaList[i].tgl.Format("2006-01-02"),
+		)
+	}
 
 	var r rating 
 	fmt.Print("Masukkan nama Anda: ")
@@ -198,24 +252,26 @@ func addRating() {
 	fmt.Print("Masukkan ID ide yang ingin divote: ")
 	fmt.Scanln(&r.IdIdea)
 
-	for i := 0; i < totalAmount; i++ {
-		if ideaList[i].IdIdea == r.IdIdea {
-			ideaList[i].totalVote++
+		for i := 0; i < totalAmount; i++ {
+			if ideaList[i].IdIdea == r.IdIdea {
+				ideaList[i].totalVote++
+			}else{
+				fmt.Println("Id Tidak DI Temukan!")
+			}
 		}
-	}
-
-	if totalRating >= maxRating {
-		fmt.Println("Kapasitas rating penuh.")
-		return
-	}
-
-	r.idRating = currentRatingId
-	currentRatingId++
-	ratingMenu[totalRating] = r
-	totalRating++
-
-	fmt.Println("Vote berhasil ditambahkan.")
-
+	
+		if totalRating >= maxRating {
+			fmt.Println("Kapasitas rating penuh.")
+			return
+		}
+	
+		r.idRating = currentRatingId
+		currentRatingId++
+		ratingMenu[totalRating] = r
+		totalRating++
+	
+		fmt.Println("Vote berhasil ditambahkan.")
+	
 
 }
 
@@ -271,12 +327,12 @@ func PopularIdea() {
 		if pilih == 1 || pilih == 2 {
 			fmt.Println("=== Daftar Ide ===")
 			for i := 0; i < totalAmount; i++ {
-				fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d | Tanggal: %d\n",
-					ideaList[i].IdIdea,
+				fmt.Printf("No %d | Ide: %s | Kategori: %s | Vote: %d | Tanggal: %d\n",
+					i+1,
 					ideaList[i].ideaProject,
 					ideaList[i].Kategori,
 					ideaList[i].totalVote,
-					ideaList[i].tgl)
+					ideaList[i].tgl.Format("2006-01-02"))
 			}
 
 			fmt.Println("\nTekan Enter untuk kembali ke pilihan...")
