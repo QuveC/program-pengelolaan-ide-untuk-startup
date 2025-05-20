@@ -323,10 +323,18 @@ func PopularIdea() {
 
 		if pilih == 1 {
 			selectionSortByTgl()
-			fmt.Println("\n=== Ide berdasarkan Tanggal ===")
+		fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
+		fmt.Println("║                      IDE BERDASARKAN TANGGAL                        ║")
+		fmt.Println("╠════╦════════════════════════╦══════════════╦═══════╦════════════════╣")
+		fmt.Println("║ No ║        Ide             ║   Kategori   ║ Vote  ║    Tanggal     ║")
+		fmt.Println("╠════╬════════════════════════╬══════════════╬═══════╬════════════════╣")
 		} else if pilih == 2 {
 			insertionShort()
-			fmt.Println("\n=== Ide berdasarkan Voting ===")
+		fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
+		fmt.Println("║                      IDE BERDASARKAN VOTING                         ║")
+		fmt.Println("╠════╦════════════════════════╦══════════════╦═══════╦════════════════╣")
+		fmt.Println("║ No ║        Ide             ║   Kategori   ║ Vote  ║    Tanggal     ║")
+		fmt.Println("╠════╬════════════════════════╬══════════════╬═══════╬════════════════╣")			
 		} else if pilih == 3{
 			fmt.Println("Pilihan tidak valid.")
 			fmt.Println("Tekan Enter untuk lanjut...")
@@ -335,11 +343,7 @@ func PopularIdea() {
 			fmt.Println("Pilihan Tidak Ada")
 		}
 
-		fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
-		fmt.Println("║                      IDE BERDASARKAN URUTAN                         ║")
-		fmt.Println("╠════╦════════════════════════╦══════════════╦═══════╦════════════════╣")
-		fmt.Println("║ No ║        Ide             ║   Kategori   ║ Vote  ║    Tanggal     ║")
-		fmt.Println("╠════╬════════════════════════╬══════════════╬═══════╬════════════════╣")
+
 
 		if pilih == 1 || pilih == 2 {
 			for i := 0; i < totalAmount; i++ {
