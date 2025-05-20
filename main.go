@@ -305,7 +305,7 @@ func PopularIdea() {
 
 	var pilih int
 	for {
-	
+	    
 		fmt.Println("╔══════════════════════════════════════════════════╗")
 		fmt.Println("║                 Pilih UrutaN Ide                 ║")
 		fmt.Println("╠══════════════════════════════════════════════════╣")
@@ -322,6 +322,7 @@ func PopularIdea() {
 		}
 
 		if pilih == 1 {
+			clear()
 			selectionSortByTgl()
 		fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
 		fmt.Println("║                      IDE BERDASARKAN TANGGAL                        ║")
@@ -329,7 +330,8 @@ func PopularIdea() {
 		fmt.Println("║ No ║        Ide             ║   Kategori   ║ Vote  ║    Tanggal     ║")
 		fmt.Println("╠════╬════════════════════════╬══════════════╬═══════╬════════════════╣")
 		} else if pilih == 2 {
-			insertionShort()
+		  clear()
+		  insertionShort()
 		fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
 		fmt.Println("║                      IDE BERDASARKAN VOTING                         ║")
 		fmt.Println("╠════╦════════════════════════╦══════════════╦═══════╦════════════════╣")
