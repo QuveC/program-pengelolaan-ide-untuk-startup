@@ -94,8 +94,13 @@ func createIdea() {
 //================================ UPDATE =============================
 func updateIdea() {
 	clear()
+	fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
+		fmt.Println("║                              List Ide                               ║")
+		fmt.Println("╠════╦════════════════════════╦══════════════╦═══════╦════════════════╣")
+		fmt.Println("║ No ║        Ide             ║   Kategori   ║ Vote  ║    Tanggal     ║")
+		fmt.Println("╠════╬════════════════════════╬══════════════╬═══════╬════════════════╣")
 	for i := 0; i < totalAmount; i++ {
-		fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d | Tanggal: %s\n",			
+			fmt.Printf("║ %-2d ║ %-22s ║ %-12s ║ %-5d ║ %-14s ║\n",
 			ideaList[i].IdIdea,
 			ideaList[i].ideaProject,
 			ideaList[i].Kategori,
@@ -103,6 +108,8 @@ func updateIdea() {
 			ideaList[i].tgl.Format("2006-01-02"),
 		)
 	}
+        fmt.Println("╚════╩════════════════════════╩══════════════╩═══════╩════════════════╝")
+
 	var id int
 	fmt.Println("")
 	fmt.Print("Masukkan ID ide yang ingin diupdate: ")
@@ -136,8 +143,13 @@ func updateIdea() {
 //================================ DELETE =============================
 func deleteIdea() {
     clear()
+	fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
+		fmt.Println("║                              List Ide                               ║")
+		fmt.Println("╠════╦════════════════════════╦══════════════╦═══════╦════════════════╣")
+		fmt.Println("║ No ║        Ide             ║   Kategori   ║ Vote  ║    Tanggal     ║")
+		fmt.Println("╠════╬════════════════════════╬══════════════╬═══════╬════════════════╣")
 	for i := 0; i < totalAmount; i++ {
-		fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d | Tanggal: %s\n",			
+			fmt.Printf("║ %-2d ║ %-22s ║ %-12s ║ %-5d ║ %-14s ║\n",
 			ideaList[i].IdIdea,
 			ideaList[i].ideaProject,
 			ideaList[i].Kategori,
@@ -145,6 +157,8 @@ func deleteIdea() {
 			ideaList[i].tgl.Format("2006-01-02"),
 		)
 	}
+        fmt.Println("╚════╩════════════════════════╩══════════════╩═══════╩════════════════╝")
+
 	var id int
     fmt.Println("")
     fmt.Print("Masukan ID ide yang ingin dihapus: ")
@@ -172,22 +186,62 @@ func deleteIdea() {
     }
 }
 
-//=============================== SHOW ===============================
-func selectionSortByTgl() {
 
-	for i := 0; i < totalAmount-1; i++ {
-		minIdx := i
-		for j := i + 1; j < totalAmount; j++ {
-			// if ideaList[j].tgl < ideaList[minIdx].tgl {
-			if ideaList[j].tgl.Before(ideaList[minIdx].tgl) {
-				minIdx = j
+//============================= DUMMY VOTE =============================
+func addRating() {
+	clear()
+	if totalAmount == 0 {
+		fmt.Println("Belum ada ide yang bisa divote.")
+		return
+	}
+		
+	fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
+		fmt.Println("║                              List Ide                               ║")
+		fmt.Println("╠════╦════════════════════════╦══════════════╦═══════╦════════════════╣")
+		fmt.Println("║ No ║        Ide             ║   Kategori   ║ Vote  ║    Tanggal     ║")
+		fmt.Println("╠════╬════════════════════════╬══════════════╬═══════╬════════════════╣")
+	for i := 0; i < totalAmount; i++ {
+			fmt.Printf("║ %-2d ║ %-22s ║ %-12s ║ %-5d ║ %-14s ║\n",
+			ideaList[i].IdIdea,
+			ideaList[i].ideaProject,
+			ideaList[i].Kategori,
+			ideaList[i].totalVote,
+			ideaList[i].tgl.Format("2006-01-02"),
+		)
+	}
+        fmt.Println("╚════╩════════════════════════╩══════════════╩═══════╩════════════════╝")
+
+	var r rating 
+	fmt.Println("")
+	fmt.Print("Masukkan nama Anda: ")
+	fmt.Scanln(&r.author)
+	fmt.Print("Masukkan ID ide yang ingin divote: ")
+	fmt.Scanln(&r.IdIdea)
+
+		for i := 0; i < totalAmount; i++ {
+			if ideaList[i].IdIdea == r.IdIdea {
+				ideaList[i].totalVote++
+			}else{
+				fmt.Println("Id Tidak DI Temukan!")
 			}
 		}
-		if minIdx != i {
-			ideaList[i], ideaList[minIdx] = ideaList[minIdx], ideaList[i]
+	
+		if totalRating >= maxRating {
+			fmt.Println("Kapasitas rating penuh.")
+			return
 		}
-	}
+	
+		r.idRating = currentRatingId
+		currentRatingId++
+		ratingMenu[totalRating] = r
+		totalRating++
+	
+		fmt.Println("Vote berhasil ditambahkan.")
+		fmt.Scanln()
+
 }
+
+//=============================== SHOW ===============================
 
 func showIdea() {
 	clear()
@@ -234,62 +288,80 @@ func showIdea() {
 	}
 }
 
-//============================= DUMMY VOTE =============================
-func addRating() {
-	clear()
-	if totalAmount == 0 {
-		fmt.Println("Belum ada ide yang bisa divote.")
-		return
-	}
-		
-	for i := 0; i < totalAmount; i++ {
-    fmt.Printf("ID %d | Ide: %s | Kategori: %s | Vote: %d | Tanggal: %s\n",			
-			ideaList[i].IdIdea,
-			ideaList[i].ideaProject,
-			ideaList[i].Kategori,
-			ideaList[i].totalVote,
-			ideaList[i].tgl.Format("2006-01-02"),
-		)
-	}
 
-	var r rating 
-	fmt.Print("Masukkan nama Anda: ")
-	fmt.Scanln(&r.author)
-	fmt.Print("Masukkan ID ide yang ingin divote: ")
-	fmt.Scanln(&r.IdIdea)
+//====== Sorting Tanggal Dengan Selection Sort ======
 
-		for i := 0; i < totalAmount; i++ {
-			if ideaList[i].IdIdea == r.IdIdea {
-				ideaList[i].totalVote++
-			}else{
-				fmt.Println("Id Tidak DI Temukan!")
+func selectionSortByTglMenaik() {
+	for pass := 0; pass < totalAmount-1; pass++ {
+		idx := pass
+		for i := pass + 1; i < totalAmount; i++ {
+			if ideaList[i].tgl.Before(ideaList[idx].tgl) {
+				idx = i
 			}
 		}
-	
-		if totalRating >= maxRating {
-			fmt.Println("Kapasitas rating penuh.")
-			return
-		}
-	
-		r.idRating = currentRatingId
-		currentRatingId++
-		ratingMenu[totalRating] = r
-		totalRating++
-	
-		fmt.Println("Vote berhasil ditambahkan.")
-	
+		ideaList[pass], ideaList[idx] = ideaList[idx], ideaList[pass]
+	}
 
+	// Update ID setelah sorting
+	for i := range ideaList {
+		ideaList[i].IdIdea = i + 1
+	}
+}
+func selectionSortByTglMenurun() {
+	for pass := 0; pass < totalAmount-1; pass++ {
+		idx := pass
+		for i := pass + 1; i < totalAmount; i++ {
+			if ideaList[i].tgl.After(ideaList[idx].tgl) {
+				idx = i
+			}
+		}
+		ideaList[pass], ideaList[idx] = ideaList[idx], ideaList[pass]
+	}
+
+	// Update ID setelah sorting
+	for i := range ideaList {
+		ideaList[i].IdIdea = i + 1
+	}
 }
 
-func insertionShort(){
+
+//====== Sorting Vote Dengan Insertion Sort ======
+
+func insertionSortByVoteMenurun() {
 	for i := 1; i < totalAmount; i++ {
-		temp := ideaList[i]
+		key := ideaList[i]
 		j := i - 1
-		for j >= 0 && ideaList[j].totalVote < temp.totalVote {
+
+		// Ganti dengan After untuk descending
+		for j >= 0 && ideaList[j].totalVote < key.totalVote {
 			ideaList[j+1] = ideaList[j]
 			j--
 		}
-		ideaList[j+1] = temp
+		ideaList[j+1] = key
+	}
+
+	// Update ID setelah sorting
+	for i := range ideaList {
+		ideaList[i].IdIdea = i + 1
+	}
+}
+
+func insertionSortByVoteMenaik() {
+	for i := 1; i < totalAmount; i++ {
+		key := ideaList[i]
+		j := i - 1
+
+		// Ganti dengan After untuk descending
+		for j >= 0 && ideaList[j].totalVote > key.totalVote {
+			ideaList[j+1] = ideaList[j]
+			j--
+		}
+		ideaList[j+1] = key
+	}
+
+	// Update ID setelah sorting
+	for i := range ideaList {
+		ideaList[i].IdIdea = i + 1
 	}
 }
 
@@ -303,51 +375,97 @@ func PopularIdea() {
 		return
 	}
 
-	var pilih int
+	var pilihMenu, pilihUrutan int
 	for {
-	    
+		clear()
 		fmt.Println("╔══════════════════════════════════════════════════╗")
-		fmt.Println("║                 Pilih UrutaN Ide                 ║")
+		fmt.Println("║                 Pilih Urutan Ide                 ║")
 		fmt.Println("╠══════════════════════════════════════════════════╣")
 		fmt.Println("║ 1. Berdasarkan tanggal                           ║")
 		fmt.Println("║ 2. Berdasarkan voting                            ║")
 		fmt.Println("║ 3. Kembali ke menu                               ║")
 		fmt.Println("╚══════════════════════════════════════════════════╝")
 		fmt.Print("Pilih : ")
-		fmt.Scanln(&pilih)
+		fmt.Scanln(&pilihMenu)
 
-
-		if pilih == 3 {
-			return
-		}
-
-		if pilih == 1 {
+		if pilihMenu == 1 {
 			clear()
-			selectionSortByTgl()
-		fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
-		fmt.Println("║                      IDE BERDASARKAN TANGGAL                        ║")
-		fmt.Println("╠════╦════════════════════════╦══════════════╦═══════╦════════════════╣")
-		fmt.Println("║ No ║        Ide             ║   Kategori   ║ Vote  ║    Tanggal     ║")
-		fmt.Println("╠════╬════════════════════════╬══════════════╬═══════╬════════════════╣")
-		} else if pilih == 2 {
-		  clear()
-		  insertionShort()
-		fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
-		fmt.Println("║                      IDE BERDASARKAN VOTING                         ║")
-		fmt.Println("╠════╦════════════════════════╦══════════════╦═══════╦════════════════╣")
-		fmt.Println("║ No ║        Ide             ║   Kategori   ║ Vote  ║    Tanggal     ║")
-		fmt.Println("╠════╬════════════════════════╬══════════════╬═══════╬════════════════╣")			
-		} else if pilih == 3{
-			fmt.Println("Pilihan tidak valid.")
-			fmt.Println("Tekan Enter untuk lanjut...")
-			fmt.Scanln()
+			fmt.Println("╔══════════════════════════════════════════════════╗")
+			fmt.Println("║       Pilih Urutan Ide Berdasarkan Tanggal       ║")
+			fmt.Println("╠══════════════════════════════════════════════════╣")
+			fmt.Println("║ 1. Berdasarkan Tanggal Menaik                    ║")
+			fmt.Println("║ 2. Berdasarkan Tanggal Menurun                   ║")
+			fmt.Println("║ 3. Kembali                                       ║")
+			fmt.Println("╚══════════════════════════════════════════════════╝")
+			fmt.Scanln(&pilihUrutan)
+
+			if pilihUrutan == 1 {
+				selectionSortByTglMenaik()
+				fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
+				fmt.Println("║                      IDE BERDASARKAN TANGGAL                        ║")
+				fmt.Println("╠════╦════════════════════════╦══════════════╦═══════╦════════════════╣")
+				fmt.Println("║ No ║        Ide             ║   Kategori   ║ Vote  ║    Tanggal     ║")
+				fmt.Println("╠════╬════════════════════════╬══════════════╬═══════╬════════════════╣")
+
+			}else if pilihUrutan == 2 { 
+				selectionSortByTglMenurun()
+				fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
+				fmt.Println("║                      IDE BERDASARKAN TANGGAL                        ║")
+				fmt.Println("╠════╦════════════════════════╦══════════════╦═══════╦════════════════╣")
+				fmt.Println("║ No ║        Ide             ║   Kategori   ║ Vote  ║    Tanggal     ║")
+				fmt.Println("╠════╬════════════════════════╬══════════════╬═══════╬════════════════╣")
+
+			}else if pilihUrutan == 3 {
+				PopularIdea()
+				return
+			}else{
+				fmt.Println("Pilihan Tidak Ada")
+			}
+
+		} else if pilihMenu == 2 {
+
+			clear()
+			fmt.Println("╔══════════════════════════════════════════════════╗")
+			fmt.Println("║       Pilih Urutan Ide Berdasarkan Vote          ║")
+			fmt.Println("╠══════════════════════════════════════════════════╣")
+			fmt.Println("║ 1. Berdasarkan Vote Menaik                       ║")
+			fmt.Println("║ 2. Berdasarkan Vote Menurun                      ║")
+			fmt.Println("║ 3. Kembali                                       ║")
+			fmt.Println("╚══════════════════════════════════════════════════╝")
+			fmt.Scanln(&pilihUrutan)
+
+			if pilihUrutan == 1 {
+				insertionSortByVoteMenaik()
+				fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
+				fmt.Println("║                      IDE BERDASARKAN VOTING                         ║")
+				fmt.Println("╠════╦════════════════════════╦══════════════╦═══════╦════════════════╣")
+				fmt.Println("║ No ║        Ide             ║   Kategori   ║ Vote  ║    Tanggal     ║")
+				fmt.Println("╠════╬════════════════════════╬══════════════╬═══════╬════════════════╣")
+
+			}else if pilihUrutan == 2 { 
+				insertionSortByVoteMenurun()
+				fmt.Println("╔═════════════════════════════════════════════════════════════════════╗")
+				fmt.Println("║                      IDE BERDASARKAN VOTING                         ║")
+				fmt.Println("╠════╦════════════════════════╦══════════════╦═══════╦════════════════╣")
+				fmt.Println("║ No ║        Ide             ║   Kategori   ║ Vote  ║    Tanggal     ║")
+				fmt.Println("╠════╬════════════════════════╬══════════════╬═══════╬════════════════╣")
+
+			}else if pilihUrutan == 3 {
+				PopularIdea()
+				return
+			}else{
+				fmt.Println("Pilihan Tidak Ada")
+			}
+
+		} else if pilihMenu == 3{
+			return
 		}else {
 			fmt.Println("Pilihan Tidak Ada")
 		}
 
 
 
-		if pilih == 1 || pilih == 2 {
+		if pilihMenu == 1 || pilihMenu == 2 {
 			for i := 0; i < totalAmount; i++ {
 			fmt.Printf("║ %-2d ║ %-22s ║ %-12s ║ %-5d ║ %-14s ║\n",
 					i+1,
@@ -369,6 +487,7 @@ func menu(){
 	clear()
 	var pilihan int 
     for {
+		clear()
 		fmt.Println("╔══════════════════════════════════════════════════╗")
 		fmt.Println("║                    MENU UTAMA                    ║")
 		fmt.Println("╠══════════════════════════════════════════════════╣")
@@ -402,5 +521,4 @@ func menu(){
 //============================= MAIN =============================
 func main() {
     menu()
-	
 }
