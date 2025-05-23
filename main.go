@@ -328,6 +328,7 @@ func selectionSortByTglMenaik() {
 		ideaList[i].IdIdea = i + 1
 	}
 }
+
 func selectionSortByTglMenurun() {
 	for pass := 0; pass < totalAmount-1; pass++ {
 		idx := pass
