@@ -64,6 +64,40 @@ func clear() {
 	cmd.Run()
 }
 
+//============================= Read Data =============================
+func readData(){
+	fmt.Println("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗")
+	fmt.Println("║                                     List Ide                                                                      ║")
+	fmt.Println("╠════╦══════════════════════════════════════════════════════╦══════════════════════════╦═══════╦════════════════════╣")
+	fmt.Println("║ No ║                         Ide                          ║         Kategori         ║ Vote  ║     Tanggal        ║")
+	fmt.Println("╠════╬══════════════════════════════════════════════════════╬══════════════════════════╬═══════╬════════════════════╣")
+
+	for i := 0; i < totalAmount; i++ {
+			fmt.Printf("║ %-2d ║ %-52s ║ %-24s ║ %-5d ║ %-18s ║\n",
+			ideaList[i].IdIdea,
+			ideaList[i].ideaProject,
+			ideaList[i].Kategori,
+			ideaList[i].totalVote,
+			ideaList[i].tgl.Format("2006-01-02"),
+		)
+	}
+        fmt.Println("╚════╩══════════════════════════════════════════════════════╩══════════════════════════╩═══════╩════════════════════╝")
+}
+
+
+func readPopularIdea(judul string) {
+	totalWidth := 115
+	judulLen := len(judul)
+	leftPadding := (totalWidth - judulLen) / 2
+	rightPadding := totalWidth - judulLen - leftPadding
+	fmt.Println("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗")
+	fmt.Printf("║%*s%s%*s║\n", leftPadding, "", judul, rightPadding, "")
+	fmt.Println("╠════╦══════════════════════════════════════════════════════╦══════════════════════════╦═══════╦════════════════════╣")
+	fmt.Println("║ No ║                         Ide                          ║         Kategori         ║ Vote  ║     Tanggal        ║")
+	fmt.Println("╠════╬══════════════════════════════════════════════════════╬══════════════════════════╬═══════╬════════════════════╣")
+}
+
+
 
 //================================ CREATE =============================
 func createIdea() {
@@ -159,25 +193,7 @@ func deleteIdea() {
     }
 }
 
-//============================= Read Data =============================
-func readData(){
-	fmt.Println("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗")
-	fmt.Println("║                                     List Ide                                                                      ║")
-	fmt.Println("╠════╦══════════════════════════════════════════════════════╦══════════════════════════╦═══════╦════════════════════╣")
-	fmt.Println("║ No ║                         Ide                          ║         Kategori         ║ Vote  ║     Tanggal        ║")
-	fmt.Println("╠════╬══════════════════════════════════════════════════════╬══════════════════════════╬═══════╬════════════════════╣")
 
-	for i := 0; i < totalAmount; i++ {
-			fmt.Printf("║ %-2d ║ %-52s ║ %-24s ║ %-5d ║ %-18s ║\n",
-			ideaList[i].IdIdea,
-			ideaList[i].ideaProject,
-			ideaList[i].Kategori,
-			ideaList[i].totalVote,
-			ideaList[i].tgl.Format("2006-01-02"),
-		)
-	}
-        fmt.Println("╚════╩══════════════════════════════════════════════════════╩══════════════════════════╩═══════╩════════════════════╝")
-}
 
 
 //============================= ADD RATING =============================
@@ -329,6 +345,8 @@ func insertionSortByVoteMenaik() {
 	}
 }
 
+
+
 func PopularIdea() {
 	clear()
 
@@ -366,28 +384,17 @@ func PopularIdea() {
 			if pilihUrutan == 1 {
 				clear()
 				selectionSortByTglMenaik()
-				fmt.Println("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗")
-                fmt.Println("║                                  IDE BERDASARKAN TANGGAL                                                          ║")
-                fmt.Println("╠════╦══════════════════════════════════════════════════════╦══════════════════════════╦═══════╦════════════════════╣")
-                fmt.Println("║ No ║                         Ide                          ║         Kategori         ║ Vote  ║     Tanggal        ║")
-                fmt.Println("╠════╬══════════════════════════════════════════════════════╬══════════════════════════╬═══════╬════════════════════╣")
+	            readPopularIdea("IDE BERDASARKAN TANGGAL MENAIK")
 
 			}else if pilihUrutan == 2 { 
 				clear()
 				selectionSortByTglMenurun()
-				fmt.Println("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗")
-				fmt.Println("║                                  IDE BERDASARKAN TANGGAL                                                          ║")
-				fmt.Println("╠════╦══════════════════════════════════════════════════════╦══════════════════════════╦═══════╦════════════════════╣")
-				fmt.Println("║ No ║                         Ide                          ║         Kategori         ║ Vote  ║     Tanggal        ║")
-				fmt.Println("╠════╬══════════════════════════════════════════════════════╬══════════════════════════╬═══════╬════════════════════╣")
+		        readPopularIdea("IDE BERDASARKAN TANGGAL MENURUN")
+
 
 			}else if pilihUrutan == 3 {
 				PopularIdea()
-				fmt.Println("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗")
-				fmt.Println("║                                  IDE BERDASARKAN TANGGAL                                                          ║")
-				fmt.Println("╠════╦══════════════════════════════════════════════════════╦══════════════════════════╦═══════╦════════════════════╣")
-				fmt.Println("║ No ║                         Ide                          ║         Kategori         ║ Vote  ║     Tanggal        ║")
-				fmt.Println("╠════╬══════════════════════════════════════════════════════╬══════════════════════════╬═══════╬════════════════════╣")
+	            readPopularIdea("IDE BERDASARKAN TANGGAL MENAIK")
 				return
 			}else{
 				fmt.Println("Pilihan Tidak Ada")
@@ -407,21 +414,14 @@ func PopularIdea() {
 			if pilihUrutan == 1 {
 				clear()
 				insertionSortByVoteMenaik()
-				fmt.Println("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗")
-				fmt.Println("║                                     IDE BERDASARKAN VOTING                                                        ║")
-				fmt.Println("╠════╦══════════════════════════════════════════════════════╦══════════════════════════╦═══════╦════════════════════╣")
-				fmt.Println("║ No ║                         Ide                          ║         Kategori         ║ Vote  ║     Tanggal        ║")
-				fmt.Println("╠════╬══════════════════════════════════════════════════════╬══════════════════════════╬═══════╬════════════════════╣")
+	            readPopularIdea("IDE BERDASARKAN VOTE MENAIK")
 
 
 			}else if pilihUrutan == 2 { 
 				clear()
 				insertionSortByVoteMenurun()
-				fmt.Println("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗")
-				fmt.Println("║                                  IDE BERDASARKAN VOTING                                                           ║")
-				fmt.Println("╠════╦══════════════════════════════════════════════════════╦══════════════════════════╦═══════╦════════════════════╣")
-				fmt.Println("║ No ║                         Ide                          ║         Kategori         ║ Vote  ║     Tanggal        ║")
-				fmt.Println("╠════╬══════════════════════════════════════════════════════╬══════════════════════════╬═══════╬════════════════════╣")
+				readPopularIdea("IDE BERDASARKAN VOTE MENURUN")
+
 
 			}else if pilihUrutan == 3 {
 				PopularIdea()
