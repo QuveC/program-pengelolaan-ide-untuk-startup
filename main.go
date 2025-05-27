@@ -12,10 +12,10 @@ const maxIdea = 20
 const maxRating int = 100
 
 func dummyData(ideaList *ideas, ratingMenu *ratingList, totalAmount *int, currentId *int, totalRating *int, currentRatingId *int) {
-	ideaList[0] = Idea{IdIdea: 1, ideaProject: "Aplikasi Donasi Online", Kategori: "Sosial", totalVote: 5, tgl: time.Date(2025, 4, 10, 0, 0, 0, 0, time.UTC)}
-	ideaList[1] = Idea{IdIdea: 2, ideaProject: "Sistem Absensi QR", Kategori: "Teknologi", totalVote: 8, tgl: time.Date(2025, 3, 22, 0, 0, 0, 0, time.UTC)}
-	ideaList[2] = Idea{IdIdea: 3, ideaProject: "Aplikasi Belajar Bahasa", Kategori: "Pendidikan", totalVote: 3, tgl: time.Date(2025, 5, 5, 0, 0, 0, 0, time.UTC)}
-	ideaList[3] = Idea{IdIdea: 4, ideaProject: "Marketplace UMKM", Kategori: "Ekonomi", totalVote: 10, tgl: time.Date(2025, 2, 15, 0, 0, 0, 0, time.UTC)}
+	ideaList[0] = Idea{IdIdea: 1, ideaProject: "Aplikasi Donasi Online", Kategori: "Sosial", totalVote: 5, tgl: time.Date(2023, 4, 10, 0, 0, 0, 0, time.UTC)}
+	ideaList[1] = Idea{IdIdea: 2, ideaProject: "Sistem Absensi QR", Kategori: "Teknologi", totalVote: 8, tgl: time.Date(2015, 3, 22, 0, 0, 0, 0, time.UTC)}
+	ideaList[2] = Idea{IdIdea: 3, ideaProject: "Aplikasi Belajar Bahasa", Kategori: "Pendidikan", totalVote: 3, tgl: time.Date(2009, 5, 5, 0, 0, 0, 0, time.UTC)}
+	ideaList[3] = Idea{IdIdea: 4, ideaProject: "Marketplace UMKM", Kategori: "Ekonomi", totalVote: 10, tgl: time.Date(2005, 2, 15, 0, 0, 0, 0, time.UTC)}
 	*totalAmount = 4
 	*currentId = 5
 
@@ -83,7 +83,7 @@ func readPopularIdea(judul string) {
 	leftPadding := (totalWidth - judulLen) / 2
 	rightPadding := totalWidth - judulLen - leftPadding
 	fmt.Println("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗")
-	fmt.Printf("║%*s%s%*s║\n", leftPadding, "", judul, rightPadding, "")
+	fmt.Printf(" ║%*s%s%*s║\n", leftPadding, "", judul, rightPadding, "")
 	fmt.Println("╠════╦══════════════════════════════════════════════════════╦══════════════════════════╦═══════╦════════════════════╣")
 	fmt.Println("║ No ║                         Ide                          ║         Kategori         ║ Vote  ║     Tanggal        ║")
 	fmt.Println("╠════╬══════════════════════════════════════════════════════╬══════════════════════════╬═══════╬════════════════════╣")
@@ -161,19 +161,19 @@ func deleteIdea(ideaList *ideas, totalAmount *int) {
 	fmt.Print("Masukan ID Ide Yang Ingin Dihapus: ")
 	fmt.Scan(&id)
 
-	found := false
+	foundIndex := -1
 	for i := 0; i < *totalAmount; i++ {
 		if ideaList[i].IdIdea == id {
-			for j := i; j < *totalAmount-1; j++ {
-				ideaList[j] = ideaList[j+1]
-			}
-			*totalAmount--
-			found = true
-			break
+			foundIndex = i
 		}
 	}
 
-	if found {
+	if foundIndex != -1 {
+		for j := foundIndex; j < *totalAmount-1; j++ {
+			ideaList[j] = ideaList[j+1]
+		}
+		*totalAmount--
+
 		for i := 0; i < *totalAmount; i++ {
 			ideaList[i].IdIdea = i + 1
 		}
@@ -181,20 +181,24 @@ func deleteIdea(ideaList *ideas, totalAmount *int) {
 	} else {
 		fmt.Println("ID Tidak Ditemukan.")
 	}
+
 	fmt.Scanln()
 }
+
 
 //============================= ADD RATING =============================
 func addRating(ideaList *ideas, ratingMenu *ratingList, totalRating *int, currentRatingId *int, totalAmount int) {
 	clear()
+
 	if totalAmount == 0 {
 		fmt.Println("Belum Ada Ide Yang Bisa Divote.")
 		fmt.Scanln()
 		return
 	}
-	readData(*ideaList, totalAmount)
-	var r rating
 
+	readData(*ideaList, totalAmount)
+
+	var r rating
 	fmt.Print("\nMasukkan Nama Anda: ")
 	fmt.Scanln(&r.author)
 
@@ -208,11 +212,11 @@ func addRating(ideaList *ideas, ratingMenu *ratingList, totalRating *int, curren
 	}
 
 	found := false
+
 	for i := 0; i < totalAmount; i++ {
 		if ideaList[i].IdIdea == r.IdIdea {
 			ideaList[i].totalVote++
 			found = true
-			break
 		}
 	}
 
@@ -222,12 +226,13 @@ func addRating(ideaList *ideas, ratingMenu *ratingList, totalRating *int, curren
 		ratingMenu[*totalRating] = r
 		(*totalRating)++
 		fmt.Println("Vote Berhasil Ditambahkan.")
-		fmt.Scanln()
 	} else {
 		fmt.Println("ID Tidak Ditemukan.")
-		fmt.Scanln()
 	}
+
+	fmt.Scanln()
 }
+
 
 //=============================== CRUD LIST IDEA ===============================
 func menuCrudListIdea(ideaList *ideas, totalAmount *int, currentId *int) {
@@ -470,6 +475,7 @@ func searchIdea(ideaList *ideas, totalAmount int) {
 
 //======================== Popular by Periode ========================
 func popularIdeaByPeriod(ideaList *ideas, totalAmount int) {
+	clear()
 	var startStr, endStr string
 	layout := "2006-01-02"
 
@@ -512,11 +518,26 @@ func popularIdeaByPeriod(ideaList *ideas, totalAmount int) {
 	}
 
 	fmt.Println("\nIde Paling Populer Dalam Periode Tersebut:")
-	for _, idea := range filtered {
-		fmt.Printf("- %s (Vote: %d, Tanggal: %s)\n", idea.ideaProject, idea.totalVote, idea.tgl.Format("2006-01-02"))
-	}
-	fmt.Println()
+	fmt.Println("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗")
+	fmt.Println("║                                     List Ide                                                                      ║")
+	fmt.Println("╠════╦══════════════════════════════════════════════════════╦══════════════════════════╦═══════╦════════════════════╣")
+	fmt.Println("║ No ║                         Ide                          ║         Kategori         ║ Vote  ║     Tanggal        ║")
+	fmt.Println("╠════╬══════════════════════════════════════════════════════╬══════════════════════════╬═══════╬════════════════════╣")
 
+	for i := 0; i < len(filtered); i++ {
+		idea := filtered[i]
+		fmt.Printf("║ %-2d ║ %-52s ║ %-24s ║ %-5d ║ %-18s ║\n",
+			idea.IdIdea,
+			idea.ideaProject,
+			idea.Kategori,
+			idea.totalVote,
+			idea.tgl.Format("2006-01-02"),
+		)
+	}
+
+	fmt.Println("╚════╩══════════════════════════════════════════════════════╩══════════════════════════╩═══════╩════════════════════╝")
+
+	fmt.Println()
 	fmt.Scanln()
 }
 
