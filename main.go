@@ -570,7 +570,7 @@ func menu(ideaList *ideas, ratingMenu *ratingList, totalAmount *int, currentId *
 			menuCrudListIdea(ideaList, totalAmount, currentId)
 		case 5:
 			searchIdea(ideaList, *totalAmount)
-		case 6:
+		case 6: 	
 			popularIdeaByPeriod(ideaList, *totalAmount)
 		case 7:
 			fmt.Println("Terima Kasih")
