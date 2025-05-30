@@ -83,7 +83,7 @@ func readPopularIdea(judul string) {
 	leftPadding := (totalWidth - judulLen) / 2
 	rightPadding := totalWidth - judulLen - leftPadding
 	fmt.Println("╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗")
-	fmt.Printf(" ║%*s%s%*s║\n", leftPadding, "", judul, rightPadding, "")
+	fmt.Printf("║%*s%s%*s║\n", leftPadding, "", judul, rightPadding, "")
 	fmt.Println("╠════╦══════════════════════════════════════════════════════╦══════════════════════════╦═══════╦════════════════════╣")
 	fmt.Println("║ No ║                         Ide                          ║         Kategori         ║ Vote  ║     Tanggal        ║")
 	fmt.Println("╠════╬══════════════════════════════════════════════════════╬══════════════════════════╬═══════╬════════════════════╣")
