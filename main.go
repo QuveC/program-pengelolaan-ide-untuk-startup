@@ -390,11 +390,11 @@ func PopularIdea(ideaList *ideas, totalAmount int) {
 				selectionSortByTglMenurun(ideaList, totalAmount)
 				readPopularIdea("IDE BERDASARKAN TANGGAL MENURUN")
 			} else if pilihUrutan == 3 {
-				continue
+				return
 			} else {
 				fmt.Println("Pilihan Tidak Ada")
 				fmt.Scanln()
-				continue
+				return
 			}
 
 		} else if pilihMenu == 2 {
@@ -417,11 +417,11 @@ func PopularIdea(ideaList *ideas, totalAmount int) {
 				insertionSortByVoteMenurun(ideaList, totalAmount)
 				readPopularIdea("IDE BERDASARKAN VOTE MENURUN")
 			} else if pilihUrutan == 3 {
-				continue
+				return
 			} else {
 				fmt.Println("Pilihan Tidak Ada")
 				fmt.Scanln()
-				continue
+				return
 			}
 
 		} else if pilihMenu == 3 {
@@ -429,7 +429,7 @@ func PopularIdea(ideaList *ideas, totalAmount int) {
 		} else {
 			fmt.Println("Pilihan Tidak Ada")
 			fmt.Scanln()
-			continue
+			return
 		}
 
 		if pilihMenu == 1 || pilihMenu == 2 {
