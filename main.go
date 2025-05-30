@@ -197,13 +197,25 @@ func addRating(ideaList *ideas, ratingMenu *ratingList, totalRating *int, curren
 	}
 
 	readData(*ideaList, totalAmount)
+	fmt.Print("Kembali: cancel")
 
 	var r rating
+	var inputAuthor string
+	var inputId int
+
 	fmt.Print("\nMasukkan Nama Anda: ")
-	fmt.Scanln(&r.author)
+	fmt.Scanln(&inputAuthor)
+	if inputAuthor == "cancel" {
+		return
+	}
+	r.author = inputAuthor
 
 	fmt.Print("Masukkan ID Ide Yang Ingin Divote: ")
-	fmt.Scanln(&r.IdIdea)
+	fmt.Scanln(&inputId)
+	if inputId == 0 {
+		return
+	}
+	r.IdIdea = inputId
 
 	if *totalRating >= maxRating {
 		fmt.Println("Kapasitas Rating Penuh.")
